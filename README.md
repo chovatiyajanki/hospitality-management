@@ -45,17 +45,22 @@ A lightweight, GPU-accelerated ambient component positioned behind page content 
   - Strict compliance with `prefers-reduced-motion` (shows static warm background).
   - Configurable speeds and intensities via CSS variables.
 
-### 4. Layout: Collapsible Sidebar Header Navigation
-The desktop navigation tabs (`Live Token Board`, `Book Appointment`, `Track Queue`, `Doctor Desk`, `Waiting TV`) are positioned in a dedicated left **Sidebar Header** ([`Sidebar.jsx`](file:///d:/Janki%20Automation/hospitality-management/frontend/src/components/Sidebar.jsx)):
+### 4. Layout: Collapsible Sidebar Header Navigation & Staff Privacy
+- **Patient Privacy**: The Doctor Desk is strictly hidden from regular patient navigation. Patients only see the patient tabs:
+  - *Live Token Board*
+  - *Book Appointment*
+  - *Track Queue*
+  - *Waiting TV*
+- **Doctor / Staff Access**: Authorized medical staff can access the Doctor Desk via a discrete *Staff Access* link (Sidebar or Footer) by entering the staff PIN (Default: `1234`).
+- **Lock Protection**: Unauthenticated users trying to access the Doctor Desk view are intercepted by the *StaffPinGate*, preventing patients from viewing doctor controls. Doctors can click *Lock Doctor Desk* at any time to re-hide it.
 - **Desktop (md / lg and up)**:
   - Sticky vertical navigation rail on the left.
   - Collapsible: switches between 260px expanded view and 72px icon rail with hover tooltips (`ChevronLeft` / `ChevronRight` toggle).
-  - Includes Clinic Brand Header, Navigation items with active ink pill indicator, and Live serving token counter. Status indicators and language/theme controls remain in the top header bar.
+  - Includes Clinic Brand Header, Navigation items with active ink pill indicator, and Live serving token counter.
   - Persists collapsed state across browser refreshes in `localStorage`.
 - **Mobile (< md)**:
   - Accessible off-canvas sliding drawer triggered from the top navbar hamburger button (`Menu` icon).
-  - Esc key dismiss, backdrop overlay blur, and smooth spring slide animation.
-  - Mobile bottom nav bar still available for quick 1-tap thumb navigation.
+  - Mobile bottom nav bar displays only the 4 patient tabs for clean, thumb-friendly navigation.
 
 ### 5. Component Library (`src/components/ui/`)
 - **Button**: Coral `#E4572E` primary, Deep Ink `#14213D` secondary, Saffron morning, Sky evening, with `active:scale-[0.97]` tactile press.

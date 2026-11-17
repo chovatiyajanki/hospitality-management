@@ -3,17 +3,36 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useI18n } from "../context/I18nContext";
 import { cn } from "../lib/utils";
 
-const ITEMS = [
+const PATIENT_ITEMS = [
   { id: "live-board", icon: Activity, key: "nav.liveShort" },
   { id: "book-appointment", icon: Calendar, key: "nav.bookShort" },
   { id: "my-token", icon: Search, key: "nav.trackShort" },
-  { id: "doctor-panel", icon: Stethoscope, key: "nav.deskShort" },
   { id: "tv-screen", icon: Tv, key: "nav.tvShort" },
 ];
 
-export default function BottomNav({ currentTab, setCurrentTab }) {
+const DOCTOR_ITEM = {
+  id: "doctor-panel",
+  icon: Stethoscope,
+  key: "nav.deskShort",
+};
+
+export default function BottomNav({
+  currentTab,
+  setCurrentTab,
+  isDoctorAuthenticated = false,
+}) {
   const { t } = useI18n();
   const reduceMotion = useReducedMotion();
+
+  const items = isDoctorAuthenticated
+    ? [
+        PATIENT_ITEMS[0],
+        PATIENT_ITEMS[1],
+        PATIENT_ITEMS[2],
+        DOCTOR_ITEM,
+        PATIENT_ITEMS[3],
+      ]
+    : PATIENT_ITEMS;
 
   return (
     <nav
@@ -34,9 +53,14 @@ export default function BottomNav({ currentTab, setCurrentTab }) {
           </button>
         )}
 
-        {/* 5 Bottom Nav Items */}
-        <div className="grid grid-cols-5 gap-1">
-          {ITEMS.map((item) => {
+        {/* Bottom Nav Items (4 items for patients, 5 items if doctor authenticated) */}
+        <div
+          className={cn(
+            "grid gap-1",
+            items.length === 5 ? "grid-cols-5" : "grid-cols-4"
+          )}
+        >
+          {items.map((item) => {
             const Icon = item.icon;
             const active = currentTab === item.id;
             return (

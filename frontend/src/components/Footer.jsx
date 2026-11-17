@@ -1,4 +1,4 @@
-import { MapPin, Phone, Clock, MessageCircle, Navigation, Heart } from "lucide-react";
+import { MapPin, Phone, Clock, MessageCircle, Navigation, Heart, Lock } from "lucide-react";
 import { Button } from "./ui";
 import { useI18n } from "../context/I18nContext";
 import { clinicAddress, clinicMapsUrl, clinicPhone, telHref, whatsappUrl } from "../lib/utils";
@@ -8,7 +8,7 @@ const CURRENT_YEAR = new Date().getFullYear();
 const LEGACY_PLACEHOLDER_ADDRESS = "Gurukrupa Clinic, Station Road, Rajkot - 360001";
 const LEGACY_PLACEHOLDER_PHONE = "+91 98765 43210";
 
-export default function Footer({ settings }) {
+export default function Footer({ settings, onOpenStaffModal }) {
   const { t } = useI18n();
   const configuredAddress = settings?.address?.trim();
   const address =
@@ -88,11 +88,23 @@ export default function Footer({ settings }) {
         {/* Bottom copyright notice */}
         <div className="mt-8 border-t border-[var(--border)] pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-[var(--fg-muted)]">
           <span>&copy; {CURRENT_YEAR} Gurukrupa Clinic. All rights reserved.</span>
-          <span className="flex items-center gap-1">
-            <span>Designed with</span>
-            <Heart className="h-3 w-3 text-rose-500 fill-rose-500" />
-            <span>for modern healthcare delivery</span>
-          </span>
+          <div className="flex items-center gap-4">
+            {onOpenStaffModal && (
+              <button
+                type="button"
+                onClick={onOpenStaffModal}
+                className="inline-flex items-center gap-1.5 text-[var(--fg-muted)] hover:text-[#E4572E] transition-colors cursor-pointer"
+              >
+                <Lock className="h-3 w-3" />
+                <span>Staff Access</span>
+              </button>
+            )}
+            <span className="flex items-center gap-1">
+              <span>Designed with</span>
+              <Heart className="h-3 w-3 text-rose-500 fill-rose-500" />
+              <span>for modern healthcare delivery</span>
+            </span>
+          </div>
         </div>
       </div>
     </footer>

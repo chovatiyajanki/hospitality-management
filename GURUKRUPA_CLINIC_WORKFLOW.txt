@@ -1,0 +1,257 @@
+================================================================================
+             GURUKRUPA CLINIC - ONLINE TOKENS & QUEUE SYSTEM
+                    COMPLETE WORKFLOW & USER GUIDE
+================================================================================
+
+[TABLE OF CONTENTS]
+1. SYSTEM OVERVIEW & CORE PURPOSE
+2. SESSION TIMINGS & CAPACITY RULES
+3. STEP-BY-STEP PATIENT WORKFLOW (ENGLISH)
+4. DOCTOR & RECEPTION DESK WORKFLOW (ENGLISH)
+5. WAITING ROOM TV SIGNAGE (ENGLISH)
+6. QUICK REFERENCE CHEAT SHEET (ENGLISH)
+--------------------------------------------------------------------------------
+7. ગુજરાતી માર્ગદર્શિકા (GUJARATI COMPLETE WORKFLOW GUIDE)
+   7.1 મુખ્ય ફાયદા અને હેતુ
+   7.2 સવાર અને સાંજનું સેશન
+   7.3 દર્દી માટે પગલાંવાર પ્રક્રિયા (Patient Journey)
+   7.4 ડોક્ટર અને રિસેપ્શન ડેસ્ક પ્રક્રિયા (Doctor & Desk)
+   7.5 વેઇટિંગ રૂમ ટીવી ડિસ્પ્લે (Waiting Room TV)
+   7.6 સરળ સમરી ટેબલ (Quick Summary)
+================================================================================
+
+
+================================================================================
+1. SYSTEM OVERVIEW & CORE PURPOSE
+================================================================================
+The Gurukrupa Clinic Online Tokens & Queue System eliminates physical queue
+waiting. Patients take digital tokens remotely, track their queue progress
+live from their smartphone, and arrive at the clinic only 10-15 minutes before
+their turn.
+
+KEY HIGHLIGHTS:
+- Real-time synchronization powered by WebSockets (no page refresh needed).
+- Automated text-to-speech audio announcements in the clinic.
+- Zero-paper digital tokens with instant WhatsApp sharing and Calendar export.
+- Strict session capacity management (50-patient morning limit).
+- Multilingual interface supporting English, Gujarati (ગુજરાતી), and Hindi (हिन्दी).
+
+
+================================================================================
+2. SESSION TIMINGS & CAPACITY RULES
+================================================================================
+The clinic operates in two distinct sessions with specialized booking models:
+
+A. MORNING SESSION (09:00 AM - 01:00 PM)
+   - First-Come, First-Served queue model.
+   - Strict daily limit: Exactly 50 patients (Tokens #M-01 to #M-50).
+   - Once 50 tokens are booked, morning registration is locked automatically.
+   - The 51st patient is directed to book the Evening Session.
+
+B. EVENING SESSION (04:30 PM - 08:30 PM)
+   - Slot-Based appointment model.
+   - Patients choose specific 15-minute consultation windows (e.g., 05:15 PM, 06:30 PM).
+   - Tokens formatted as #E-01, #E-02, etc.
+
+
+================================================================================
+3. STEP-BY-STEP PATIENT WORKFLOW (ENGLISH)
+================================================================================
+
+STEP 1: CHECK LIVE STATUS (Live Token Board)
+- Patient visits the clinic website on their phone or computer.
+- They immediately see:
+  * "Now Serving": The active token consulting in Cabin 1.
+  * Live Queue Stats: Patients waiting, completed consultations today.
+  * Estimated Wait: Calculated at average speed (~5 minutes per patient).
+  * Morning Quota Progress: Number of morning slots left out of 50.
+
+STEP 2: BOOK AN APPOINTMENT (Book Online Appointment)
+1. Select Session: Choose Morning or Evening.
+2. Select Slot: Pick a preferred time slot for Evening, or next available for Morning.
+3. Patient Details: Fill Patient Name, Age, Gender, 10-digit Mobile Number, City,
+   and optional reason for visit (Fever, Routine Checkup, Follow-up, BP/Sugar).
+4. Instant Digital Confirmation Slip:
+   * Unique Token Number generated (e.g., #M-07).
+   * 1-Click WhatsApp Share: Send appointment details directly to phone.
+   * Google Calendar Download: Save .ics reminder file.
+   * Printable Slip: Formatted medical appointment receipt with QR code.
+
+STEP 3: TRACK QUEUE LIVE FROM HOME (Track My Queue)
+- Patient enters their Mobile Number or Token ID.
+- Live 5-Step Visual Progress Timeline:
+  [Booked] ---> [In Queue] ---> [Next Up] ---> [In Cabin 1] ---> [Completed]
+- Live countdown: "About 25 minutes to go - 4 patients ahead of you".
+- Audio Chime Toggle: Phone plays an alert when the patient is next in line.
+- Patient leaves home to reach the clinic 10-15 minutes before their turn.
+
+
+================================================================================
+4. DOCTOR & RECEPTION DESK WORKFLOW (ENGLISH)
+================================================================================
+Dedicated workspace for the doctor and clinic reception staff.
+
+PRIVACY & ACCESS RESTRICTION:
+- Patients CANNOT see or access the Doctor Desk from the patient navigation.
+- The Doctor Desk is completely hidden from the public Sidebar and Mobile Bottom Bar.
+- Clinic staff unlock access by clicking the discreet "Staff Access" link (Sidebar or Footer)
+  and entering the 4-digit Staff PIN (Default PIN: 1234).
+- Once authenticated, the Doctor Desk appears in the staff navigation with a 1-click
+  "Lock Doctor Desk" button to re-hide it whenever the doctor leaves the desk.
+- The Doctor Desk page itself (DoctorPanel.jsx) remains 100% intact and unchanged.
+
+KEY ACTIONS & KEYBOARD SHORTCUTS:
+- Call Next (Shortcut: 'N')
+  Advances the queue to the next patient in line.
+  * Updates all patient screens and the TV screen instantly.
+  * Triggers voice announcement: "Token number M-07, please proceed to Cabin 1".
+  * Sends an instant browser notification to the called patient.
+
+- Recall Token (Shortcut: 'R')
+  Repeats the voice announcement over the clinic speakers if the patient has
+  not yet entered the cabin.
+
+- Complete Consultation (Shortcut: 'C')
+  Concludes the active consultation.
+  * Opens a clinical notes modal to record diagnosis, medicines, and advice.
+  * Saves notes to the patient record and updates today's completed count.
+
+- Skip Patient:
+  Temporarily bypasses an absent patient so the waiting line is not blocked.
+
+- Walk-in Counter (+ Walk-in Patient):
+  Allows receptionists to quickly register elderly or walk-in patients arriving
+  in person without a smartphone in under 20 seconds.
+
+- Doctor Presence Toggle:
+  Doctor sets status: "Available", "In Consultation", "On Break", or "Off Duty".
+
+
+================================================================================
+5. WAITING ROOM TV SIGNAGE (ENGLISH)
+================================================================================
+Runs hands-free 24/7 on a Smart TV or monitor in the clinic waiting area:
+- Viewport-Scaled Giant Token: Highly visible Coral (#E4572E) typography on
+  deep ink background, legible from 25+ feet away.
+- Audio Speech Chime: Plays automatic chime and speaks the patient name/token
+  whenever the doctor calls a new patient.
+- Upcoming In-Line Strip: Shows the next 4 upcoming patients with estimated arrival.
+- Auto-Hiding Cursor: Mouse pointer disappears automatically after 4 seconds of idle.
+- Digital Live Clock: Precision clinic time display synchronized with server.
+- Running Notice Ticker: Bottom scrolling ticker with session timings and clinic notices.
+
+
+================================================================================
+6. QUICK REFERENCE CHEAT SHEET (ENGLISH)
+================================================================================
+ROLE            PRIMARY SCREEN         ACTION
+--------------------------------------------------------------------------------
+New Patient     Live Board / Book      Check wait, book token, get WhatsApp slip.
+Waiting Patient Track Queue            Monitor live minutes from home; arrive 15 min early.
+Receptionist    Doctor Desk (+Walk-in) Register walk-in patients, manage quotas.
+Doctor          Doctor Desk            Press 'N' (Next), 'R' (Recall), 'C' (Complete).
+Waiting Room TV Waiting TV Screen      Fullscreen hands-free display with auto voice calls.
+================================================================================
+
+
+================================================================================
+7. ગુજરાતી માર્ગદર્શિકા (GUJARATI COMPLETE WORKFLOW GUIDE)
+================================================================================
+
+7.1 મુખ્ય ફાયદા અને હેતુ
+--------------------------------------------------------------------------------
+- વેઇટિંગ રૂમમાં કલાકો સુધી બેસી રહેવાની જરૂર નથી.
+- દર્દી પોતાના મોબાઈલ પરથી ઘરે બેઠા લાઈવ જોઈ શકે છે કે અત્યારે કયો નંબર ચાલે છે.
+- દર્દી પોતાનો વારો આવવાના ૧૦ થી ૧૫ મિનિટ પહેલા જ દવાખાને પહોંચી શકે છે.
+- સ્પીકર પર ઓટોમેટિક ગુજરાતી/અંગ્રેજીમાં દર્દીનું નામ અને ટોકન બોલાય છે.
+
+
+7.2 સવાર અને સાંજનું સેશન
+--------------------------------------------------------------------------------
+૧. સવારનું સેશન (સવારે ૦૯:૦૦ થી બપોરે ૦૧:૦૦):
+   - વહેલા તે પહેલાના ધોરણે (First-Come, First-Served).
+   - સવારમાં વધુમાં વધુ ૫૦ દર્દીઓની કડક મર્યાદા (Tokens #M-01 થી #M-50).
+   - ૫૦ ટોકન ભરાઈ ગયા પછી સવારનું બુકિંગ આપમેળે બંધ થઈ જશે.
+
+૨. સાંજનું સેશન (સાંજે ૦૪:૩૦ થી રાત્રે ૦૮:૩૦):
+   - ટાઇમ-સ્લોટ આધારિત (Time Slot Tokens).
+   - દર્દી પોતાની અનુકૂળતા મુજબ સમય (દા.ત. ૦૫:૧૫ PM, ૦૬:૩૦ PM) પસંદ કરી શકે છે.
+
+
+7.3 દર્દી માટે પગલાંવાર પ્રક્રિયા (Patient Journey)
+--------------------------------------------------------------------------------
+પગલું ૧: લાઈવ ટોકન બોર્ડ તપાસવું (Live Token Board)
+- વેબસાઇટ ખોલતા જ હોમ પેજ પર દેખાશે:
+  * હાલમાં કેબિન ૧ માં કયો નંબર ચાલે છે (Now Serving).
+  * કેટલા દર્દીઓ લાઈનમાં રાહ જોઈ રહ્યા છે અને સરેરાશ કેટલો સમય લાગશે.
+  * સવારના ૫૦ માંથી કેટલા ટોકન બુક થયા અને કેટલા ખાલી છે.
+
+પગલું ૨: ઓનલાઇન એપોઇન્ટમેન્ટ બુક કરવી (Book Online Appointment)
+૧. સેશન પસંદ કરો (સવાર કે સાંજ).
+૨. સમય પસંદ કરો (સાંજ માટે અનુકૂળ સમયનો સ્લોટ).
+૩. દર્દીની વિગતો ભરો: નામ, ઉંમર, જાતિ, ૧૦ આંકડાનો મોબાઈલ નંબર અને બીમારીનું કારણ.
+૪. ડિજિટલ સ્લિપ મેળવો:
+   * પાકો ટોકન નંબર તરત જ મળી જશે (દા.ત. #M-07 અથવા #E-04).
+   * ૧-ક્લિકમાં WhatsApp પર શેર, કેલેન્ડરમાં સેવ અથવા પ્રિન્ટ કરી શકાય છે.
+
+પગલું ૩: ઘરે બેઠા લાઈવ નંબર ટ્રેક કરવો (Track My Queue)
+૧. 'Track Queue' માં જઈને પોતાનો મોબાઈલ નંબર અથવા ટોકન નંબર નાખો.
+૨. લાઈવ ૫-તબક્કાની પ્રગતિ રેખા દેખાશે:
+   [બુક થયું] ---> [લાઈનમાં છો] ---> [હવે પછી તમારો વારો] ---> [કેબિનમાં જાઓ] ---> [તપાસ પૂર્ણ]
+૩. સ્ક્રીન પર સ્પષ્ટ લખેલું આવશે: "આશરે ૨૫ મિનિટ બાકી છે - તમારી આગળ ૪ દર્દીઓ છે".
+૪. સાઉન્ડ ચાલુ રાખવાથી વારો આવતાં જ ફોનમાં એલર્ટ વાગશે.
+
+
+7.4 ડોક્ટર અને રિસેપ્શન ડેસ્ક પ્રક્રિયા (Doctor & Desk)
+--------------------------------------------------------------------------------
+ક્લિનિક સ્ટાફ અને ડોક્ટર માટે ખાસ કન્સોલ:
+
+ગોપનીયતા અને એક્સેસ નિયંત્રણ:
+- સામાન્ય દર્દીઓને 'ડોક્ટર ડેસ્ક' (Doctor Desk) મેનુ કે નેવિગેશનમાં દેખાશે નહીં.
+- ડેસ્કટોપ સાઇડબાર અને મોબાઇલ બોટમ નેવ બંનેમાંથી ડોક્ટર ડેસ્ક સંપૂર્ણપણે છુપાયેલું છે.
+- સ્ટાફ / ડોક્ટર નીચે આપેલા 'Staff Access' પર ક્લિક કરીને ૪ અંકનો PIN (Default: 1234)
+  દાખલ કરીને ડોક્ટર ડેસ્ક અનલોક કરી શકે છે.
+- કામ પત્યા પછી ૧-ક્લિકમાં 'Lock Doctor Desk' દબાવીને તેને ફરી દર્દીઓથી લોક કરી શકાય છે.
+- મૂળ ડોક્ટર ડેસ્ક પેજ (DoctorPanel.jsx) માં કોઈપણ ફેરફાર કરવામાં આવેલ નથી.
+
+૧. નવો દર્દી બોલાવવો (Call Next - શોર્ટકટ 'N'):
+   - કીબોર્ડ પરથી ફક્ત 'N' દબાવવાથી આગલો દર્દી બોલાવાશે.
+   - બધી સ્ક્રીન અને ટીવી પર તરત નવો નંબર આવી જશે.
+   - સ્પીકર પર અવાજમાં જાહેરાત બોલાશે: "ટોકન નંબર M-07, કૃપા કરીને કેબિન ૧ માં પધારો".
+
+૨. ફરીથી બોલાવવો (Recall - શોર્ટકટ 'R'):
+   - દર્દી તરત ન આવે તો 'R' દબાવવાથી સ્પીકર પર ફરીથી જાહેરાત બોલાશે.
+
+૩. તપાસ પૂર્ણ કરવી (Complete - શોર્ટકટ 'C'):
+   - દર્દી તપાસાઈ જાય એટલે 'C' દબાવવું.
+   - ડોક્ટર દર્દીની દવા અને ક્લિનિકલ નોટ્સ લખીને સેવ કરી શકે છે.
+
+૪. હાજર ન હોય તેવો દર્દી (Skip):
+   - દર્દી હાજર ન હોય તો સ્કીપ કરી શકાય જેથી બીજા દર્દીઓનો સમય ન બગડે.
+
+૫. રૂબરૂ આવતા દર્દીઓ (+ Walk-in Patient):
+   - સ્માર્ટફોન વગર સીધા દવાખાને આવતા દર્દીઓ માટે રિસેપ્શનિસ્ટ ૨૦ સેકન્ડમાં ટોકન કાઢી આપે છે.
+
+
+7.5 વેઇટિંગ રૂમ ટીવી ડિસ્પ્લે (Waiting Room TV)
+--------------------------------------------------------------------------------
+વેઇટિંગ રૂમના મોટા ટીવી પર ૨૪ કલાક આપમેળે ચાલશે:
+- મોટા અક્ષરોમાં લાઈવ નંબર (૨૫-૩૦ ફૂટ દૂરથી પણ સ્પષ્ટ વંચાય).
+- સ્પીકર પર ઓટોમેટિક બેલ (Chime) અને અવાજ સાથે જાહેરાત.
+- હવે પછીના ૪ દર્દીઓની યાદી અને અંદાજિત સમય.
+- ૪ સેકન્ડ પછી માઉસ કર્સર આપમેળે ગાયબ થઈ જશે.
+- નીચે સતત ચાલતી ક્લિનિકના નિયમોની નોટિસ પટ્ટી (Ticker Tape).
+
+
+7.6 સરળ સમરી ટેબલ (Quick Summary)
+--------------------------------------------------------------------------------
+કોણ વાપરશે?        મુખ્ય સ્ક્રીન         શું કામ થશે?
+--------------------------------------------------------------------------------
+નવો દર્દી          Live Board / Book     લાઈવ નંબર જોવો, ટોકન બુક કરવો, WhatsApp સ્લિપ.
+રાહ જોતો દર્દી     Track Queue           ઘરે બેઠા મિનિટ સાથે લાઈવ વારો ટ્રેક કરવો.
+રિસેપ્શનિસ્ટ       Doctor Desk (+Walkin) રૂબરૂ આવતા દર્દીની એન્ટ્રી કરવી, ક્વોટા જોવો.
+ડોક્ટર             Doctor Desk           'N' (આગલો દર્દી), 'R' (ફરી બોલાવો), 'C' (પૂર્ણ).
+વેઇટિંગ રૂમ ટીવી   Waiting TV            મોટી સ્ક્રીન પર લાઈવ જાહેરાત અને અવાજ સાથે પ્રદર્શન.
+================================================================================
+                   GURUKRUPA CLINIC - ALL RIGHTS RESERVED
+================================================================================

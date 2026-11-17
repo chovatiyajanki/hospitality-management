@@ -4,12 +4,14 @@ import {
   ChevronLeft,
   ChevronRight,
   X,
+  Lock,
+  ShieldCheck,
 } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Tooltip } from "./ui";
 import { useI18n } from "../context/I18nContext";
 import { cn } from "../lib/utils";
-import { TABS } from "../constants/navigation";
+import { PATIENT_TABS, ALL_TABS } from "../constants/navigation";
 
 export default function Sidebar({
   currentTab,
@@ -20,9 +22,15 @@ export default function Sidebar({
   setIsCollapsed,
   isMobileOpen = false,
   setIsMobileOpen,
+  isDoctorAuthenticated = false,
+  onOpenStaffModal,
+  onLockStaffMode,
 }) {
   const { t } = useI18n();
   const reduceMotion = useReducedMotion();
+
+  // If doctor is authenticated, show all tabs including Doctor Desk. Otherwise, patient tabs only.
+  const visibleTabs = isDoctorAuthenticated ? ALL_TABS : PATIENT_TABS;
 
   // Close mobile drawer on escape key
   useEffect(() => {
@@ -57,7 +65,7 @@ export default function Sidebar({
   // Shared Navigation list content
   const renderNavItems = (collapsed = false) => (
     <nav className="space-y-1.5 px-2.5" aria-label="Sidebar Main Navigation">
-      {TABS.map((tab) => {
+      {visibleTabs.map((tab) => {
         const Icon = tab.icon;
         const active = currentTab === tab.id;
         const label = t(tab.labelKey);
@@ -115,6 +123,20 @@ export default function Sidebar({
                 )}
               >
                 #{statusData.current_serving_token}
+              </span>
+            )}
+
+            {/* Doctor Desk Tag */}
+            {!collapsed && tab.id === "doctor-panel" && (
+              <span
+                className={cn(
+                  "relative z-10 rounded px-1.5 py-0.5 text-[9px] font-bold tracking-wider uppercase font-mono",
+                  active
+                    ? "bg-[#E4572E] text-white"
+                    : "bg-[#CFE0F3] text-[#183D6D]"
+                )}
+              >
+                Staff
               </span>
             )}
 
@@ -228,6 +250,59 @@ export default function Sidebar({
 
           {renderNavItems(isCollapsed)}
         </div>
+
+        {/* Discreet Staff Portal Lock / Unlock in Sidebar Footer */}
+        <div className="border-t border-[var(--border)] p-2.5">
+          {!isDoctorAuthenticated ? (
+            isCollapsed ? (
+              <Tooltip content="Staff / Doctor Access" side="right">
+                <button
+                  type="button"
+                  onClick={onOpenStaffModal}
+                  className="flex h-10 w-full items-center justify-center rounded-xl text-[var(--fg-muted)] hover:bg-[var(--surface-2)] hover:text-[#E4572E] transition-colors cursor-pointer"
+                  aria-label="Staff Access"
+                >
+                  <Lock className="h-4 w-4" />
+                </button>
+              </Tooltip>
+            ) : (
+              <button
+                type="button"
+                onClick={onOpenStaffModal}
+                className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold text-[var(--fg-muted)] hover:bg-[var(--surface-2)] hover:text-[#E4572E] transition-colors cursor-pointer"
+              >
+                <Lock className="h-3.5 w-3.5 shrink-0" />
+                <span className="truncate">Staff / Doctor Access</span>
+              </button>
+            )
+          ) : isCollapsed ? (
+            <Tooltip content="Lock Doctor Desk" side="right">
+              <button
+                type="button"
+                onClick={onLockStaffMode}
+                className="flex h-10 w-full items-center justify-center rounded-xl text-rose-500 hover:bg-rose-500/10 transition-colors cursor-pointer"
+                aria-label="Lock Doctor Desk"
+              >
+                <Lock className="h-4 w-4" />
+              </button>
+            </Tooltip>
+          ) : (
+            <button
+              type="button"
+              onClick={onLockStaffMode}
+              className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold text-rose-500 hover:bg-rose-500/10 transition-colors cursor-pointer"
+              title="Lock Doctor Desk from patient view"
+            >
+              <span className="flex items-center gap-2">
+                <ShieldCheck className="h-3.5 w-3.5" />
+                <span>Lock Doctor Desk</span>
+              </span>
+              <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-rose-500/15">
+                Lock
+              </span>
+            </button>
+          )}
+        </div>
       </aside>
 
       {/* ======================================================== */}
@@ -293,6 +368,35 @@ export default function Sidebar({
                 </div>
 
                 {renderNavItems(false)}
+              </div>
+
+              {/* Mobile Drawer Footer: Staff Access Button */}
+              <div className="border-t border-[var(--border)] p-3">
+                {!isDoctorAuthenticated ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsMobileOpen(false);
+                      onOpenStaffModal?.();
+                    }}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] py-2.5 text-xs font-semibold text-[var(--fg-muted)] hover:text-[#E4572E] transition-colors cursor-pointer"
+                  >
+                    <Lock className="h-3.5 w-3.5" />
+                    <span>Staff / Doctor Access</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsMobileOpen(false);
+                      onLockStaffMode?.();
+                    }}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-rose-500/20 bg-rose-500/10 py-2.5 text-xs font-semibold text-rose-600 transition-colors cursor-pointer"
+                  >
+                    <ShieldCheck className="h-3.5 w-3.5" />
+                    <span>Lock Doctor Desk</span>
+                  </button>
+                )}
               </div>
             </motion.div>
           </>

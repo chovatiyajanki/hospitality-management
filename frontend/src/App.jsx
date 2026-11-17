@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import BottomNav from "./components/BottomNav";
 import Footer from "./components/Footer";
 import AnimatedBackground from "./components/AnimatedBackground";
+import StaffPinGate from "./components/StaffPinGate";
 const LiveQueueBoard = lazy(() => import("./components/LiveQueueBoard"));
 const BookingForm = lazy(() => import("./components/BookingForm"));
 const MyTokenTracker = lazy(() => import("./components/MyTokenTracker"));
@@ -53,6 +54,39 @@ export default function App() {
       return false;
     }
   });
+
+  // Doctor & Staff Authentication State (Patients cannot see or access Doctor Desk)
+  const [isDoctorAuthenticated, setIsDoctorAuthenticated] = useState(() => {
+    try {
+      return sessionStorage.getItem("gk-doctor-auth") === "true";
+    } catch {
+      return false;
+    }
+  });
+  const [showStaffPinModal, setShowStaffPinModal] = useState(false);
+
+  const handleDoctorUnlock = () => {
+    setIsDoctorAuthenticated(true);
+    try {
+      sessionStorage.setItem("gk-doctor-auth", "true");
+    } catch {
+      /* ignore */
+    }
+    setShowStaffPinModal(false);
+    setCurrentTab("doctor-panel");
+  };
+
+  const handleDoctorLock = () => {
+    setIsDoctorAuthenticated(false);
+    try {
+      sessionStorage.removeItem("gk-doctor-auth");
+    } catch {
+      /* ignore */
+    }
+    if (currentTab === "doctor-panel") {
+      setCurrentTab("live-board");
+    }
+  };
 
   const handleSetCollapsed = (val) => {
     setIsCollapsed(val);
@@ -171,7 +205,7 @@ export default function App() {
         showMedicalShapes={currentTab === "live-board"}
       />
 
-      {/* Left Sidebar Header (Desktop Sticky & Mobile Drawer) */}
+      {/* Left Sidebar Header (Desktop Sticky & Mobile Drawer) - Doctor Desk hidden from patients */}
       <Sidebar
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
@@ -181,6 +215,9 @@ export default function App() {
         setIsCollapsed={handleSetCollapsed}
         isMobileOpen={isMobileOpen}
         setIsMobileOpen={setIsMobileOpen}
+        isDoctorAuthenticated={isDoctorAuthenticated}
+        onOpenStaffModal={() => setShowStaffPinModal(true)}
+        onLockStaffMode={handleDoctorLock}
       />
 
       {/* Right Column: Top Header + Main Content + Footer */}
@@ -234,22 +271,46 @@ export default function App() {
                   />
                 )}
 
+                {/* Doctor Panel is protected: only renders when authenticated; otherwise shows PIN gate */}
                 {currentTab === "doctor-panel" && (
-                  <DoctorPanel
-                    statusData={statusData}
-                    settings={settings}
-                    onRefreshStatus={loadData}
-                  />
+                  isDoctorAuthenticated ? (
+                    <DoctorPanel
+                      statusData={statusData}
+                      settings={settings}
+                      onRefreshStatus={loadData}
+                    />
+                  ) : (
+                    <StaffPinGate
+                      onSuccess={handleDoctorUnlock}
+                      onCancel={() => setCurrentTab("live-board")}
+                    />
+                  )
                 )}
               </motion.div>
             </AnimatePresence>
           </Suspense>
         </main>
 
-        <Footer settings={settings} />
+        <Footer
+          settings={settings}
+          onOpenStaffModal={() => setShowStaffPinModal(true)}
+        />
       </div>
 
-      <BottomNav currentTab={currentTab} setCurrentTab={setCurrentTab} />
+      <BottomNav
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
+        isDoctorAuthenticated={isDoctorAuthenticated}
+      />
+
+      {/* Staff PIN Modal Dialog */}
+      {showStaffPinModal && (
+        <StaffPinGate
+          isModal
+          onSuccess={handleDoctorUnlock}
+          onCancel={() => setShowStaffPinModal(false)}
+        />
+      )}
     </div>
   );
 }
